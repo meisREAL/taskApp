@@ -11,15 +11,40 @@ class InputField extends React.Component {
     }
 }
 
-class SubmitButton extends React.Component {
-    render() {
-        return (
-            <button className='submit'>Submit</button>
-        )
-    }
+// class SubmitButton extends React.Component {
+//     render() {
+//         return (
+//             <button className='submit' onClick={this.props.onClick}>Submit</button>
+//         )
+//     }
+// }
+
+function SubmitButton(props) {
+    return (
+        <button className='submit' onClick={props.onClick}>Submit</button>
+    );
 }
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            list: [{
+                tasks: Array(),
+            }],
+        }
+    }
+    handleClick(input) {
+        const taskList = this.state.list.slice();
+        const current = taskList[taskList.length - 1];
+        const task = current.tasks.slice();
+        this.setState({
+            taskList: taskList.concat([{
+                tasks: task.concat(input),
+            }]),
+        });
+        console.log(this.state.list)
+    }
     render() {
         return (
             <div className='appBoard'>
