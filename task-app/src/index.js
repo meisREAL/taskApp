@@ -1,64 +1,43 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom/client';
 
-class InputField extends React.Component {
-    render() {
-        return (
-            <input className='taskInput'>
-
-            </input>
-        );
-    }
-}
-
-// class SubmitButton extends React.Component {
-//     render() {
-//         return (
-//             <button className='submit' onClick={this.props.onClick}>Submit</button>
-//         )
-//     }
-// }
-
-function SubmitButton(props) {
-    return (
-        <button className='submit' onClick={props.onClick}>Submit</button>
-    );
-}
-
-class App extends React.Component {
+class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: [{
-                tasks: Array(),
-            }],
-        }
+            task: '',
+            tasks: [],
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleClick(input) {
-        const taskList = this.state.list.slice();
-        const current = taskList[taskList.length - 1];
-        const task = current.tasks.slice();
-        this.setState({
-            taskList: taskList.concat([{
-                tasks: task.concat(input),
-            }]),
-        });
-        console.log(this.state.list)
+    handleChange(event) {
+        this.setState({ task: event.target.value });
+        // this.setState(this.state.tasks.concat(this.state.task))
+        // console.log(this.state.tasks)
+    }
+    handleSubmit(event) {
+        event.preventDefault();
+        this.setState({ tasks: this.state.tasks.concat(this.state.task) });
+        console.log(this.state.tasks)
+        // event.preventDefault();
     }
     render() {
         return (
-            <div className='appBoard'>
-                <div className='inputs'>
-                    <InputField />
-                    <SubmitButton />
-                </div>
-                <div className='tasks'>
-
-                </div>
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Task:
+                        <input type="text" value={this.state.task} onChange={this.handleChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
             </div>
         );
     }
 }
+
+
 
 //======================================================================================
 const root = ReactDOM.createRoot(document.getElementById('root'));
